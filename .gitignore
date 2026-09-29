@@ -1,0 +1,68 @@
+# ---- Data: never commit real data ----
+data/
+raw/
+*.parquet
+*.pb
+*.pbf
+*.csv
+*.tsv
+*.avro
+*.orc
+*.jsonl
+*.ndjson
+*.zip
+*.gz
+*.duckdb
+*.duckdb.wal
+# small synthetic fixtures may be committed explicitly:
+!tests/fixtures/**/*.jsonl
+!tests/fixtures/**/*.csv
+
+# ---- Secrets & real configs ----
+.env
+.env.*
+!.env.example
+*.tfvars
+!*.tfvars.example
+*.pem
+*.key
+*-sa-key.json
+credentials*.json
+application_default_credentials.json
+
+# ---- Terraform ----
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfplan
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# ---- Spark / Beam / Airflow local artifacts ----
+spark-warehouse/
+metastore_db/
+derby.log
+beam-temp-*/
+logs/
+airflow.db
+
+# ---- dbt ----
+target/
+dbt_packages/
+
+# ---- OS / IDE ----
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
