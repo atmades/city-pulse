@@ -1,14 +1,41 @@
 # City Pulse NYC
 
+[![ci](https://github.com/atmades/city-pulse/actions/workflows/ci.yml/badge.svg)](https://github.com/atmades/city-pulse/actions/workflows/ci.yml)
+
 An educational data platform for New York City urban mobility: subway, bike share, taxi and weather data, processed in real time and in batch, with data contracts, quality checks, lineage, SLOs and an AI agent on top.
 
-Status: Sprint 0 (Foundation). See the [roadmap](docs/ROADMAP.md) and [changelog](CHANGELOG.md).
+Current stage: Sprint 0 (Foundation). See the [roadmap](docs/ROADMAP.md) and [changelog](CHANGELOG.md).
 
 ## About
 
 The project is run like real work in a data team: a backlog of requests from a fictional customer, two-week sprints, architecture decision records, SLOs, incidents and postmortems.
 
 It is designed to run at zero cloud cost. Everything works locally, and Google Cloud is used only within its free limits. Pipelines are written so the same code can run on managed services (Dataflow, Dataproc) by changing one setting. See [ADR-007](docs/adr/007-cost-zero-strategy.md).
+
+## Project status
+
+Every item links to where it is implemented. Planned items are not implemented yet.
+
+- Done: repository guardrails — pre-commit with secret scanning, linting, tests ([.pre-commit-config.yaml](.pre-commit-config.yaml), [tests](tests/unit))
+- Done: CI on every pull request, required to merge ([ci.yml](.github/workflows/ci.yml))
+- Done: architecture decision records ([docs/adr](docs/adr))
+- Done: data source licensing review process ([DATA_SOURCES.md](DATA_SOURCES.md))
+- In progress: infrastructure as code for BigQuery datasets and service accounts (Terraform)
+- Planned, Sprint 1: real-time feed ingestion with data contracts
+- Planned, Sprint 2–3: streaming pipeline (Apache Beam)
+- Planned, Sprint 4: batch backfills (PySpark)
+- Planned, Sprint 5: data marts (dbt) and orchestration (Airflow)
+- Planned, Sprint 6–7: data quality, lineage, SLOs, runbooks, postmortems
+- Planned, Sprint 8–9: AI agent (Google ADK) with an evaluation set in CI
+
+## What this project demonstrates
+
+- Data engineering workflow: pull requests, CI as a merge gate, Conventional Commits, semantic versioning
+- Security: secret scanning at commit time and in CI, least-privilege access, no data in git
+- Architecture decisions documented with options, trade-offs and cost (ADRs)
+- Cost-aware design (FinOps): zero-cost architecture with a path to managed cloud services
+- Data governance: licensing review and attribution for every source
+- Planned: streaming and batch pipelines, data modeling, data quality, observability, AI over data
 
 ## How data flows
 
@@ -25,11 +52,11 @@ Python, Apache Beam, PySpark, BigQuery, dbt, Airflow, Pub/Sub, Terraform, GitHub
 
 ## Quick start
 
-Requirements: Git, Docker, Python 3.11+, uv, Terraform 1.6+, Google Cloud CLI.
+Requirements: Git, Python 3.11+, uv.
 
-- `make setup` installs dependencies and git hooks
-- `make check` runs linters and tests, the same as CI
-- `make up` starts local emulators for Pub/Sub and Cloud Storage
+- `uv sync --group dev` installs development dependencies
+- `uv tool install pre-commit && pre-commit install` enables commit-time checks
+- `uv run ruff check . && uv run pytest` runs the same checks as CI
 
 ## Repository layout
 
@@ -47,7 +74,7 @@ Requirements: Git, Docker, Python 3.11+, uv, Terraform 1.6+, Google Cloud CLI.
 ## Engineering rules
 
 - No data and no secrets in the repository; this is checked automatically.
-- Changes go through pull requests; the main branch is protected.
+- Changes go through pull requests; the main branch is protected and CI must pass.
 - Commit messages follow Conventional Commits; releases use semantic versioning.
 - Every architectural change comes with a decision record in `docs/adr`.
 

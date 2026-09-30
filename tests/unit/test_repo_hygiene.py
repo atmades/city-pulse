@@ -16,7 +16,10 @@ def _repo_files():
             yield path
 
 
-@pytest.mark.parametrize("required", ["README.md", "LICENSE", ".gitignore"])
+@pytest.mark.parametrize(
+    "required",
+    ["README.md", "LICENSE", ".gitignore", "DATA_SOURCES.md", "CHANGELOG.md", "docs/ROADMAP.md"],
+)
 def test_required_files_exist(required):
     assert (ROOT / required).is_file(), f"{required} is required by the engineering rules"
 
@@ -40,3 +43,13 @@ def test_no_data_files_in_repo():
         if p.suffix.lower() in FORBIDDEN_DATA_SUFFIXES
     ]
     assert not offenders, f"Data files must not live in the repo: {offenders}"
+
+
+def test_every_adr_has_status_and_decision():
+    adrs = sorted((ROOT / "docs" / "adr").glob("[0-9][0-9][0-9]-*.md"))
+    decisions = [adr for adr in adrs if not adr.name.startswith("000-")]
+    assert decisions, "at least one ADR is expected"
+    for adr in decisions:
+        text = adr.read_text(encoding="utf-8")
+        assert "**Status:**" in text, f"{adr.name} has no status"
+        assert "## Decision" in text, f"{adr.name} has no Decision section"
