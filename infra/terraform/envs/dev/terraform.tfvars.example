@@ -1,0 +1,4 @@
+# Optional. By default project_id comes from .env via direnv (TF_VAR_project_id).
+# Copy to terraform.tfvars only if you do not use direnv.
+project_id = "city-pulse-dev-xxxx"
+region     = "us-east1"

@@ -30,7 +30,9 @@ def test_readme_contains_disclaimer():
     assert "DATA_SOURCES.md" in readme
 
 
-@pytest.mark.parametrize("pattern", ["data/", "*.parquet", "*.pb", "*.tfstate", ".env", "*.tfvars"])
+@pytest.mark.parametrize(
+    "pattern", ["data/", "*.parquet", "*.pb", "*.tfstate", ".env", "*.tfvars", "tfplan"]
+)
 def test_gitignore_blocks_data_and_secrets(pattern):
     lines = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
     assert pattern in lines, f".gitignore must contain '{pattern}'"
