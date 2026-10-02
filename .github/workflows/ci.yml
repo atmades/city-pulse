@@ -37,3 +37,18 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.4"
+      - name: Format
+        run: terraform fmt -check -recursive infra/terraform
+      - name: Validate
+        working-directory: infra/terraform/envs/dev
+        run: |
+          terraform init -backend=false -input=false
+          terraform validate

@@ -13,3 +13,5 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 - Branch protection for main as a repository ruleset.
 - Pull request template with a data source licensing checklist.
 - DATA_SOURCES.md, roadmap, ADR template, ADR-001 and ADR-007.
+- Terraform dev environment: BigQuery datasets per layer, least-privilege service accounts; fmt and validate in CI.
+- direnv project environment (.envrc) isolating credentials and project settings.

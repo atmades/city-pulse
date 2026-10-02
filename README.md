@@ -20,7 +20,7 @@ Every item links to where it is implemented. Planned items are not implemented y
 - Done: CI on every pull request, required to merge ([ci.yml](.github/workflows/ci.yml))
 - Done: architecture decision records ([docs/adr](docs/adr))
 - Done: data source licensing review process ([DATA_SOURCES.md](DATA_SOURCES.md))
-- In progress: infrastructure as code for BigQuery datasets and service accounts (Terraform)
+- Done: infrastructure as code — BigQuery datasets per layer and least-privilege service accounts, validated in CI ([infra/terraform](infra/terraform))
 - Planned, Sprint 1: real-time feed ingestion with data contracts
 - Planned, Sprint 2–3: streaming pipeline (Apache Beam)
 - Planned, Sprint 4: batch backfills (PySpark)

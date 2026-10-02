@@ -66,3 +66,4 @@ dbt_packages/
 .idea/
 .vscode/*
 !.vscode/extensions.json
+tfplan
