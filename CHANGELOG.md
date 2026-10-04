@@ -5,6 +5,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-02
+
 ### Added
 - Repository structure, license, README with disclaimer.
 - Python tooling: uv, ruff, pytest; repository hygiene tests.

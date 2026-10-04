@@ -20,5 +20,5 @@ Capacity: about 15 hours per week, two-week sprints. The project is built in ver
 - [x] CI required to merge; main branch protected
 - [x] Data sources, changelog, ADRs, roadmap
 - [x] Google Cloud project with BigQuery sandbox; Terraform creates datasets and service accounts
-- [ ] Project board with the first customer request
-- [ ] Release v0.1.0
+- [x] Project board with the first customer request
+- [x] Release v0.1.0
