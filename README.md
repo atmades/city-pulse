@@ -4,7 +4,7 @@
 
 An educational data platform for New York City urban mobility: subway, bike share, taxi and weather data, processed in real time and in batch, with data contracts, quality checks, lineage, SLOs and an AI agent on top.
 
-Current stage: Sprint 0 (Foundation). See the [roadmap](docs/ROADMAP.md) and [changelog](CHANGELOG.md).
+Current stage: Sprint 1 (Ingestion). Sprint 0 (Foundation) released as v0.1.0. See the [roadmap](docs/ROADMAP.md) and [changelog](CHANGELOG.md).
 
 ## About
 
