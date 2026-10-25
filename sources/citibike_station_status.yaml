@@ -1,0 +1,19 @@
+# Citi Bike station status (GBFS). One file = one source onboarded to the platform (ADR-008).
+name: citibike_station_status
+description: Real-time bike and dock availability for every Citi Bike station.
+owner: platform-team
+kind: realtime_feed
+format: json
+endpoint: https://gbfs.citibikenyc.com/gbfs/en/station_status.json
+license:
+  terms_url: https://ride.citibikenyc.com/data-sharing-policy
+  reviewed_on: 2026-10-25
+  attribution: Lyft Bikes and Scooters, LLC (Citi Bike)
+  redistribution_allowed: false
+contract: contracts/citibike_station_status.yaml
+polling:
+  interval_seconds: 60
+  timeout_seconds: 10
+  max_retries: 3
+enabled: true
+tags: [bike_share, gbfs, nyc]

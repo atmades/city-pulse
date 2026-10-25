@@ -11,7 +11,7 @@ The author is not a lawyer. This file records how the project interprets and fol
 - S3. MTA Service Alerts. Protobuf, no API key. Access: https://api.mta.info/. Status: planned. Terms reviewed: not yet.
 - S4. MTA Elevator and Escalator status. JSON, no API key. Access: https://api.mta.info/. Status: planned. Terms reviewed: not yet.
 - S5. MTA Static GTFS. ZIP/CSV. Access: https://www.mta.info/developers. Status: planned. Terms reviewed: not yet.
-- S6. Citi Bike GBFS (Lyft). JSON, no API key. Access: official GBFS feed. Status: planned, Sprint 1. Terms reviewed: not yet.
+- S6. Citi Bike GBFS station status (Lyft). JSON, no API key. Access: https://gbfs.citibikenyc.com/gbfs/en/station_status.json. Status: active (sources/citibike_station_status.yaml). Terms reviewed: 2026-10-25, https://ride.citibikenyc.com/data-sharing-policy.
 - S7. NYC TLC Trip Records. Parquet. Access: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page. Status: planned, Sprint 4. Terms reviewed: not yet.
 - S8. NOAA weather (GSOD). BigQuery public dataset bigquery-public-data.noaa_gsod. Status: planned. Terms reviewed: not yet.
 - S9. Citi Bike trip history (Lyft). Official downloads: https://citibikenyc.com/system-data. Status: planned. Terms reviewed: not yet.
