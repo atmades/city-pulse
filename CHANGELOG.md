@@ -8,6 +8,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 ### Added
 - Source specification model (Pydantic): declarative onboarding of data sources with policies enforced in code (ADR-008).
 - Strict static type checking (mypy) in CI.
+- Ingestion poller: retries with exponential backoff and jitter, content-addressed idempotent raw storage, structured JSON logs, graceful shutdown on SIGTERM; `city-pulse` CLI.
+- First live source: Citi Bike station status (S6), terms reviewed.
+- Ingestion architecture diagrams (docs/architecture/ingestion.md).
 
 ## [0.1.0] - 2026-10-02
 

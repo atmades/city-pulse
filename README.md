@@ -21,7 +21,8 @@ Every item links to where it is implemented. Planned items are not implemented y
 - Done: architecture decision records ([docs/adr](docs/adr))
 - Done: data source licensing review process ([DATA_SOURCES.md](DATA_SOURCES.md))
 - Done: infrastructure as code — BigQuery datasets per layer and least-privilege service accounts, validated in CI ([infra/terraform](infra/terraform))
-- Planned, Sprint 1: real-time feed ingestion with data contracts
+- Done: config-driven ingestion platform — one YAML file onboards a source; poller with retries, idempotent content-addressed raw storage, JSON logs, graceful shutdown ([src/city_pulse/platform](src/city_pulse/platform), [architecture](docs/architecture/ingestion.md))
+- In progress, Sprint 1: data contracts, Pub/Sub publishing, source availability metrics
 - Planned, Sprint 2–3: streaming pipeline (Apache Beam)
 - Planned, Sprint 4: batch backfills (PySpark)
 - Planned, Sprint 5: data marts (dbt) and orchestration (Airflow)
@@ -38,6 +39,8 @@ Every item links to where it is implemented. Planned items are not implemented y
 - Planned: streaming and batch pipelines, data modeling, data quality, observability, AI over data
 
 ## How data flows
+
+Detailed diagrams: [ingestion architecture](docs/architecture/ingestion.md).
 
 1. A poller fetches real-time feeds (MTA subway, service alerts, Citi Bike) and saves every snapshot unchanged.
 2. Apache Beam parses and validates the snapshots, removes duplicates, computes metrics over time windows and sends bad records to a dead-letter table.

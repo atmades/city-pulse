@@ -9,7 +9,11 @@ authors = [{ name = "Maxim Nikitin" }]
 dependencies = [
   "pydantic>=2.9,<3",
   "pyyaml>=6.0,<7",
+  "httpx>=0.27,<1",
 ]
+
+[project.scripts]
+city-pulse = "city_pulse.cli:main"
 
 [dependency-groups]
 dev = [
