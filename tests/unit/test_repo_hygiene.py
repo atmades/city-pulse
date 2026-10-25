@@ -1,5 +1,6 @@
 """Repository rules turned into tests: no real data in the repo, required docs present."""
 
+from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
@@ -10,7 +11,7 @@ FORBIDDEN_DATA_SUFFIXES = {".parquet", ".pb", ".avro", ".orc", ".duckdb", ".zip"
 SKIP_DIRS = {".git", ".venv", ".terraform", "data"}
 
 
-def _repo_files():
+def _repo_files() -> Iterator[Path]:
     for path in ROOT.rglob("*"):
         if path.is_file() and not SKIP_DIRS.intersection(path.relative_to(ROOT).parts):
             yield path
@@ -20,25 +21,26 @@ def _repo_files():
     "required",
     ["README.md", "LICENSE", ".gitignore", "DATA_SOURCES.md", "CHANGELOG.md", "docs/ROADMAP.md"],
 )
-def test_required_files_exist(required):
+def test_required_files_exist(required: str) -> None:
     assert (ROOT / required).is_file(), f"{required} is required by the engineering rules"
 
 
-def test_readme_contains_disclaimer():
+def test_readme_contains_disclaimer() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "non-commercial educational project" in readme
     assert "DATA_SOURCES.md" in readme
 
 
 @pytest.mark.parametrize(
-    "pattern", ["data/", "*.parquet", "*.pb", "*.tfstate", ".env", "*.tfvars", "tfplan"]
+    "pattern",
+    ["data/", "*.parquet", "*.pb", "*.tfstate", ".env", "*.tfvars", "tfplan"],
 )
-def test_gitignore_blocks_data_and_secrets(pattern):
+def test_gitignore_blocks_data_and_secrets(pattern: str) -> None:
     lines = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
     assert pattern in lines, f".gitignore must contain '{pattern}'"
 
 
-def test_no_data_files_in_repo():
+def test_no_data_files_in_repo() -> None:
     offenders = [
         str(p.relative_to(ROOT))
         for p in _repo_files()
@@ -47,7 +49,7 @@ def test_no_data_files_in_repo():
     assert not offenders, f"Data files must not live in the repo: {offenders}"
 
 
-def test_every_adr_has_status_and_decision():
+def test_every_adr_has_status_and_decision() -> None:
     adrs = sorted((ROOT / "docs" / "adr").glob("[0-9][0-9][0-9]-*.md"))
     decisions = [adr for adr in adrs if not adr.name.startswith("000-")]
     assert decisions, "at least one ADR is expected"
