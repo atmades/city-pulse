@@ -8,6 +8,8 @@ Current stage: Sprint 1 (Ingestion). Sprint 0 (Foundation) released as v0.1.0. S
 
 ## About
 
+Handbook and development journal: https://atmades.github.io/city-pulse/
+
 The project is run like real work in a data team: a backlog of requests from a fictional customer, two-week sprints, architecture decision records, SLOs, incidents and postmortems.
 
 It is designed to run at zero cloud cost. Everything works locally, and Google Cloud is used only within its free limits. Pipelines are written so the same code can run on managed services (Dataflow, Dataproc) by changing one setting. See [ADR-007](docs/adr/007-cost-zero-strategy.md).
