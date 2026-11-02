@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Key concepts</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">City Pulse handbook</a><span>/</span><span>Key concepts</span></div><section id="concepts" aria-labelledby="con-h">
+      <h2 id="con-h">Key concepts</h2>
+      <p class="sub">The ideas behind the code. Each one comes with a question an interviewer is likely to ask; try answering before opening the hint.</p>
+      <div class="concepts">
+        <article class="concept">
+          <h3>Onboarding by configuration</h3>
+          <p>The platform provides capabilities; sources only describe themselves. A new source is a YAML file and a contract, with no change to platform code.</p>
+          <details><summary>Interview question</summary><p>How would you know the platform approach worked? Hint: the second city or a new feed is onboarded without touching <code>src/</code>.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Policy as code</h3>
+          <p>Rules live in the model and run in CI: no polling faster than 15 seconds, no enabled source without reviewed terms, no data files in git.</p>
+          <details><summary>Interview question</summary><p>Why is a rule in a wiki weaker than a rule in a test? Hint: nobody has to remember to check it.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Idempotent ingestion</h3>
+          <p>The storage key is the hash of the content, so fetching the same snapshot twice writes it once. Retries and restarts never create duplicates.</p>
+          <details><summary>Interview question</summary><p>The poller crashes after writing a file and restarts. What happens, and what would happen if the key were the download time? Hint: same hash, same key, skip; a timestamp key would store a duplicate.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Resilience to source failures</h3>
+          <p>Transient errors (429, 5xx, network) are retried with exponential backoff and jitter within a budget. Permanent errors fail fast. A source outage is logged; a bug stops the process so the orchestrator restarts it.</p>
+          <details><summary>Interview question</summary><p>Why add random jitter to backoff? Hint: many clients failing together would otherwise retry together.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Ports and adapters</h3>
+          <p>The core talks to a <code>SnapshotStore</code> interface. Local files, S3, GCS and the in-memory test double all implement it.</p>
+          <details><summary>Interview question</summary><p>How do you test storage logic without a cloud account? Hint: inject a fake that implements the same two methods.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Graceful shutdown</h3>
+          <p>On SIGTERM the poller finishes the current poll and exits. Writes go to a temporary file and are renamed, so a killed process never leaves a half-written snapshot.</p>
+          <details><summary>Interview question</summary><p>Why <code>stop.wait()</code> instead of <code>time.sleep()</code>? Hint: Kubernetes gives about 30 seconds before SIGKILL; sleep(60) would ignore the signal.</p></details>
+        </article>
+      </div>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="repository.html"><small>Previous</small>← Repository map</a><a class="home" href="index.html">Contents</a><a class="next" href="decisions.html"><small>Next</small>Decisions →</a></div><div class="pager-all"><a href="index.html">Contents</a><a href="status.html">Status</a><a href="architecture.html">Architecture</a><a href="configuration.html">Configuration</a><a href="infrastructure.html">Infrastructure</a><a href="repository.html">Repository map</a><a href="concepts.html" aria-current="page">Key concepts</a><a href="decisions.html">Decisions</a><a href="practices.html">Engineering practices</a><a href="journal.html">Development journal</a></div></nav><footer>Non-commercial educational project, not affiliated with the MTA, Lyft / Citi Bike or the City of New York. Data terms: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>
