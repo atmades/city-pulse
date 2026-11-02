@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Architecture</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">City Pulse handbook</a><span>/</span><span>Architecture</span></div><section id="architecture" aria-labelledby="arch-h">
+      <h2 id="arch-h">Architecture</h2>
+      <h3>Poll cycle, as built</h3>
+      <p class="sub">One poller per source. Startup runs once; the loop repeats every <code>polling.interval_seconds</code>.</p>
+      <div class="lane" role="list" aria-label="Startup">
+        <div class="node" role="listitem"><b>Source spec</b><span>sources/*.yaml</span></div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div class="node" role="listitem"><b>Validate</b><span>Pydantic model and policies</span></div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div class="node core" role="listitem"><b>Poller</b><span>client, store and clock injected</span></div>
+      </div>
+      <div class="loop">
+        <span class="loop-label">Loop until SIGTERM</span>
+        <div class="lane">
+          <div class="node core"><b>Fetch feed</b><span>retry 429, 5xx, network errors</span></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node core"><b>Compute key</b><span>SHA-256 of the payload</span></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node core"><b>Key already stored?</b><span>store.exists(key)</span></div>
+        </div>
+        <div class="branch">
+          <div class="node store"><b>Yes: skip</b><span>duplicate, nothing written</span></div>
+          <div class="node store"><b>No: atomic write</b><span>temp file, then rename</span></div>
+          <div class="node"><b>Fetch failed</b><span>logged; the poller keeps running</span></div>
+        </div>
+        <div class="lane">
+          <div class="node"><b>JSON log event</b><span>snapshot_stored, snapshot_duplicate, fetch_failed</span></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node"><b>Wait</b><span>rest of the interval; SIGTERM wakes it</span></div>
+          <span class="arrow" aria-hidden="true">↻</span>
+        </div>
+      </div>
+      <p class="sub">Raw storage key. Hive-style <code>dt=</code> partitions let Spark, BigQuery and Athena read only the days a query needs.</p>
+      <div class="keyline">raw/&lt;source_name&gt;/dt=&lt;YYYY-MM-DD&gt;/&lt;sha256&gt;.&lt;json|pb|parquet&gt;</div>
+
+      <h3>Code structure: ports and adapters</h3>
+      <p class="sub">The core depends on the <code>SnapshotStore</code> interface, never on a cloud SDK. A new storage backend is one new class; the poller does not change, and tests run without network access.</p>
+      <div class="lane"><div class="node"><b>cli.py</b><span>signals, environment variables, exit codes</span></div></div>
+      <div class="hex">
+        <span class="loop-label">Platform core · src/city_pulse/platform</span>
+        <div class="lane">
+          <div class="node"><b>sources</b><span>SourceSpec, load_spec</span></div>
+          <div class="node"><b>ingestion</b><span>Poller, fetch, SnapshotStore port</span></div>
+          <div class="node"><b>observability</b><span>JSON logs; metrics later</span></div>
+        </div>
+      </div>
+      <div class="adapters" aria-label="Storage adapters">
+        <div class="node store"><b>LocalFileStore</b><span><span class="pill done">Done</span> local runs, containers</span></div>
+        <div class="node store"><b>S3Store</b><span><span class="pill plan">Planned</span> AWS raw archive</span></div>
+        <div class="node store"><b>GCSStore</b><span><span class="pill plan">Planned</span> Google Cloud</span></div>
+        <div class="node store"><b>MemoryStore</b><span>test double used by unit tests</span></div>
+      </div>
+
+      <h3>Target platform</h3>
+      <div class="lane">
+        <div class="node"><b>Pollers</b><span>real-time feeds</span></div><span class="arrow" aria-hidden="true">→</span>
+        <div class="node"><b>Raw layer</b><span>files, S3, GCS</span></div><span class="arrow" aria-hidden="true">→</span>
+        <div class="node"><b>Beam / Spark</b><span>streaming and batch</span></div><span class="arrow" aria-hidden="true">→</span>
+        <div class="node"><b>BigQuery layers</b><span>staging, curated, marts</span></div><span class="arrow" aria-hidden="true">→</span>
+        <div class="node"><b>dbt marts</b><span>dashboards, AI agent</span></div>
+      </div>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="status.html"><small>Previous</small>← Status</a><a class="home" href="index.html">Contents</a><a class="next" href="configuration.html"><small>Next</small>Configuration →</a></div><div class="pager-all"><a href="index.html">Contents</a><a href="status.html">Status</a><a href="architecture.html" aria-current="page">Architecture</a><a href="configuration.html">Configuration</a><a href="infrastructure.html">Infrastructure</a><a href="repository.html">Repository map</a><a href="concepts.html">Key concepts</a><a href="decisions.html">Decisions</a><a href="practices.html">Engineering practices</a><a href="journal.html">Development journal</a></div></nav><footer>Non-commercial educational project, not affiliated with the MTA, Lyft / Citi Bike or the City of New York. Data terms: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

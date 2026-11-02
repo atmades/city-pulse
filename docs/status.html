@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Status</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">City Pulse handbook</a><span>/</span><span>Status</span></div><section id="status" aria-labelledby="status-h">
+      <h2 id="status-h">Status</h2>
+      <p class="sub">Work is delivered in vertical slices, one pull request per step. Sprint 1 turns the repository into a platform: sources are onboarded by configuration, not code.</p>
+      <ol class="steps">
+        <li><span class="pill done">Done</span><span class="what">Sprint 0: foundation, released as v0.1.0</span><span class="why">CI as a merge gate, secret scanning, protected main, Terraform for BigQuery layers and service accounts, ADR-001 and ADR-007.</span></li>
+        <li><span class="pill done">Done</span><span class="what">Source specification model <a href="https://github.com/atmades/city-pulse/pull/6">#6</a></span><span class="why">Pydantic model for a source; policies such as "no enabling before the license is reviewed" enforced in code. ADR-008.</span></li>
+        <li><span class="pill done">Done</span><span class="what">Ingestion poller <a href="https://github.com/atmades/city-pulse/pull/7">#7</a></span><span class="why">Retries with backoff, idempotent raw storage, JSON logs, graceful shutdown. First live source: Citi Bike station status.</span></li>
+        <li><span class="pill done">Done</span><span class="what">Handbook and journal on GitHub Pages</span><span class="why">This site: architecture, configuration, concepts and a session-by-session log, served from docs/.</span></li>
+        <li><span class="pill next">Next</span><span class="what">Container image</span><span class="why">Multi-stage Dockerfile, non-root user, same image runs locally, in CI and in Kubernetes.</span></li>
+        <li><span class="pill plan">Planned</span><span class="what">Kubernetes in kind, deployed from GitHub Actions</span><span class="why">Deployment with security context and graceful shutdown; smoke test waits for the first stored snapshot. ADR-010.</span></li>
+        <li><span class="pill plan">Planned</span><span class="what">AWS raw archive and S3 adapter</span><span class="why">Hardened S3 bucket and append-only IAM role in Terraform; <code>S3Store</code> implements the storage port. ADR-009.</span></li>
+        <li><span class="pill plan">Planned</span><span class="what">GitOps with Argo CD</span><span class="why">The cluster pulls its desired state from the repository instead of CI pushing it.</span></li>
+        <li><span class="pill plan">Planned</span><span class="what">Rest of ticket <a href="https://github.com/atmades/city-pulse/issues/5">#5</a></span><span class="why">Data contracts, publishing to Pub/Sub, source availability metric, subway feed (A/C/E).</span></li>
+      </ol>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="index.html"><small>Previous</small>← Contents</a><a class="home" href="index.html">Contents</a><a class="next" href="architecture.html"><small>Next</small>Architecture →</a></div><div class="pager-all"><a href="index.html">Contents</a><a href="status.html" aria-current="page">Status</a><a href="architecture.html">Architecture</a><a href="configuration.html">Configuration</a><a href="infrastructure.html">Infrastructure</a><a href="repository.html">Repository map</a><a href="concepts.html">Key concepts</a><a href="decisions.html">Decisions</a><a href="practices.html">Engineering practices</a><a href="journal.html">Development journal</a></div></nav><footer>Non-commercial educational project, not affiliated with the MTA, Lyft / Citi Bike or the City of New York. Data terms: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

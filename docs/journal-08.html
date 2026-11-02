@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2026-10-25 · Source spec and a live poller</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">City Pulse handbook</a><span>/</span><span>2026-10-25 · Source spec and a live poller</span></div><section><article class="entry"><header><span class="jd">2026-10-25</span><h3>Source spec and a live poller</h3><span class="refs">PR #6, PR #7</span></header><div class="block"><h4>What was done</h4><ul><li>Pydantic SourceSpec with policies; mypy strict added to CI.</li><li>Poller: retries with backoff and jitter, content-addressed raw storage, JSON logs, graceful shutdown.</li><li>Citi Bike terms reviewed and the source enabled; the first live poll stored a snapshot, the second identical poll was skipped.</li></ul></div><div class="block"><h4>Problems and fixes</h4><ul><li class="incident"><b>Namespace package.</b> <code>ImportError ... (unknown location)</code>: ingestion/__init__.py was never created, so Python saw an empty package. Found by listing missing files.</li><li class="incident"><b>Broken copy of a document.</b> Nested code fences ended the chat code block early, leaving the shell waiting for EOF. Fixed by quoting with a longer fence.</li><li class="incident"><b>Logs leaking URLs.</b> httpx logged every request with its full URL at INFO: noise, and a future API key in a query string would end up in logs. Raised httpx and httpcore to WARNING.</li></ul></div><div class="block"><h4>Lessons</h4><ul><li>Run against the real source early; the first run found a security issue no unit test covered.</li><li>Changed the working format: concept and diagram first, then code, then questions.</li></ul></div></article></section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="journal-07.html"><small>Previous</small>← 2026-10-16 · Planning detours</a><a class="home" href="index.html">Contents</a><a class="next" href="journal-09.html"><small>Next</small>2026-11-02 · Handbook and GitHub Pages →</a></div><div class="pager-all"><a href="index.html">Contents</a><a href="status.html">Status</a><a href="architecture.html">Architecture</a><a href="configuration.html">Configuration</a><a href="infrastructure.html">Infrastructure</a><a href="repository.html">Repository map</a><a href="concepts.html">Key concepts</a><a href="decisions.html">Decisions</a><a href="practices.html">Engineering practices</a><a href="journal.html" aria-current="page">Development journal</a></div></nav><footer>Non-commercial educational project, not affiliated with the MTA, Lyft / Citi Bike or the City of New York. Data terms: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>
