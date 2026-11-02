@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2026-11-02 · Справочник и GitHub Pages</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>2026-11-02 · Справочник и GitHub Pages</span><a class="lang" href="../journal-09.html" hreflang="en">English</a></div><section><article class="entry"><header><span class="jd">2026-11-02</span><h3>Справочник и GitHub Pages</h3><span class="refs">PR #8, #9</span></header><div class="block"><h4>Что сделано</h4><ul><li>Перенесли архитектуру, конфигурацию и решения из чата в этот многостраничный справочник с журналом и историей архитектуры.</li><li>GitHub Pages раздаёт сайт из main, папка docs/; версии на английском и русском; включён auto-merge.</li></ul></div><div class="block"><h4>Проблемы и решения</h4><ul><li class="incident"><b>Pages отдавал 404.</b> Pages включили раньше, чем страницы попали в main: архив с сайтом не распаковался, коммит был пустым, и PR не создался. Исправили: добавили файлы, влили PR, проверили статус сборки Pages.</li><li class="incident"><b>Merge обогнал проверки.</b> Merge сразу после создания PR отклонялся: проверки ещё не стартовали. Включили auto-merge, теперь GitHub вливает PR сам, когда проверки зелёные.</li></ul></div><div class="block"><h4>Выводы</h4><ul><li>Прежде чем отлаживать хостинг, проверьте, что реально лежит в основной ветке.</li><li>Документация рядом с кодом меняется в том же pull request и не расходится с ним.</li></ul></div></article></section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="journal-08.html"><small>Назад</small>← 2026-10-25 · Спецификация источника и живой poller</a><a class="home" href="index.html">Содержание</a><span></span></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html">Статус</a><a href="architecture.html">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html">Конфигурация</a><a href="infrastructure.html">Инфраструктура</a><a href="repository.html">Карта репозитория</a><a href="concepts.html">Ключевые концепции</a><a href="decisions.html">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html" aria-current="page">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

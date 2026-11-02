@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Статус</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>Статус</span><a class="lang" href="../status.html" hreflang="en">English</a></div><section id="status" aria-labelledby="status-h">
+      <h2 id="status-h">Статус</h2>
+      <p class="sub">Работа идёт вертикальными срезами, один pull request на шаг. В Sprint 1 репозиторий становится платформой: источники подключаются конфигурацией, а не кодом.</p>
+      <ol class="steps">
+        <li><span class="pill done">Готово</span><span class="what">Sprint 0: фундамент, релиз v0.1.0</span><span class="why">CI как обязательный шлюз для merge, сканирование секретов, защищённая ветка main, Terraform для слоёв BigQuery и service accounts, ADR-001 и ADR-007.</span></li>
+        <li><span class="pill done">Готово</span><span class="what">Модель спецификации источника <a href="https://github.com/atmades/city-pulse/pull/6">#6</a></span><span class="why">Модель источника на Pydantic; правила вроде «нельзя включить источник до проверки лицензии» записаны в коде. ADR-008.</span></li>
+        <li><span class="pill done">Готово</span><span class="what">Poller для загрузки данных <a href="https://github.com/atmades/city-pulse/pull/7">#7</a></span><span class="why">Повторы с растущей паузой, идемпотентное хранение сырых данных, JSON-логи, корректное завершение. Первый живой источник: статус станций Citi Bike.</span></li>
+        <li><span class="pill done">Готово</span><span class="what">Справочник и журнал на GitHub Pages</span><span class="why">Этот сайт: архитектура, конфигурация, концепции и журнал по сессиям, раздаётся из папки docs/.</span></li>
+        <li><span class="pill next">Следующее</span><span class="what">Docker-образ</span><span class="why">Многоэтапная сборка, запуск не от root, один образ работает локально, в CI и в Kubernetes.</span></li>
+        <li><span class="pill plan">В планах</span><span class="what">Kubernetes в kind, деплой из GitHub Actions</span><span class="why">Deployment с настройками безопасности и корректным завершением; smoke-тест ждёт первый сохранённый снимок. ADR-010.</span></li>
+        <li><span class="pill plan">В планах</span><span class="what">Архив сырых данных в AWS и S3-адаптер</span><span class="why">Защищённый S3-бакет и IAM-роль только на добавление в Terraform; <code>S3Store</code> реализует порт хранилища. ADR-009.</span></li>
+        <li><span class="pill plan">В планах</span><span class="what">GitOps с Argo CD</span><span class="why">Кластер сам забирает желаемое состояние из репозитория, вместо того чтобы CI его туда отправлял.</span></li>
+        <li><span class="pill plan">В планах</span><span class="what">Остаток тикета <a href="https://github.com/atmades/city-pulse/issues/5">#5</a></span><span class="why">Контракты данных, публикация в Pub/Sub, метрика доступности источника, фид метро (A/C/E).</span></li>
+      </ol>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="index.html"><small>Назад</small>← Содержание</a><a class="home" href="index.html">Содержание</a><a class="next" href="architecture.html"><small>Дальше</small>Архитектура →</a></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html" aria-current="page">Статус</a><a href="architecture.html">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html">Конфигурация</a><a href="infrastructure.html">Инфраструктура</a><a href="repository.html">Карта репозитория</a><a href="concepts.html">Ключевые концепции</a><a href="decisions.html">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

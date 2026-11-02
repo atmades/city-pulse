@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ключевые концепции</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>Ключевые концепции</span><a class="lang" href="../concepts.html" hreflang="en">English</a></div><section id="concepts" aria-labelledby="con-h">
+      <h2 id="con-h">Ключевые концепции</h2>
+      <p class="sub">Идеи, которые стоят за кодом. К каждой есть вопрос, который вероятно зададут на собеседовании: попробуйте ответить, прежде чем открыть подсказку.</p>
+      <div class="concepts">
+        <article class="concept">
+          <h3>Подключение через конфигурацию</h3>
+          <p>Платформа даёт общие механизмы, а источники только описывают себя. Новый источник — это YAML-файл и контракт, без изменений в коде платформы.</p>
+          <details><summary>Вопрос на собеседовании</summary><p>Как понять, что платформенный подход сработал? Подсказка: второй город или новый фид подключаются без правок в <code>src/</code>.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Политики как код</h3>
+          <p>Правила живут в модели и проверяются в CI: не опрашивать чаще 15 секунд, не включать источник без проверенных условий, не хранить данные в git.</p>
+          <details><summary>Вопрос на собеседовании</summary><p>Чем правило в вики хуже правила в тесте? Подсказка: никому не нужно помнить, что его надо проверить.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Идемпотентная загрузка</h3>
+          <p>Ключ хранения — хеш содержимого, поэтому один и тот же снимок, скачанный дважды, записывается один раз. Повторы и перезапуски не создают дублей.</p>
+          <details><summary>Вопрос на собеседовании</summary><p>Poller упал после записи файла и перезапустился. Что произойдёт и что было бы, если бы ключом было время загрузки? Подсказка: тот же хеш, тот же ключ, пропуск; ключ по времени дал бы дубль.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Устойчивость к сбоям источника</h3>
+          <p>Временные ошибки (429, 5xx, сеть) повторяются с растущей паузой и случайным разбросом в пределах бюджета. Постоянные ошибки не повторяются. Сбой источника пишется в лог, а баг останавливает процесс, чтобы оркестратор его перезапустил.</p>
+          <details><summary>Вопрос на собеседовании</summary><p>Зачем добавлять к паузе случайный разброс (jitter)? Подсказка: иначе клиенты, упавшие одновременно, одновременно и повторят запрос.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Порты и адаптеры</h3>
+          <p>Ядро работает с интерфейсом <code>SnapshotStore</code>. Его реализуют локальные файлы, S3, GCS и подделка в памяти для тестов.</p>
+          <details><summary>Вопрос на собеседовании</summary><p>Как протестировать логику хранения без облачного аккаунта? Подсказка: передать подделку, которая реализует те же два метода.</p></details>
+        </article>
+        <article class="concept">
+          <h3>Корректное завершение</h3>
+          <p>По SIGTERM poller заканчивает текущий опрос и выходит. Запись идёт во временный файл с переименованием, поэтому убитый процесс никогда не оставит обрезанный снимок.</p>
+          <details><summary>Вопрос на собеседовании</summary><p>Почему <code>stop.wait()</code>, а не <code>time.sleep()</code>? Подсказка: Kubernetes даёт около 30 секунд до SIGKILL, а sleep(60) проигнорировал бы сигнал.</p></details>
+        </article>
+      </div>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="repository.html"><small>Назад</small>← Карта репозитория</a><a class="home" href="index.html">Содержание</a><a class="next" href="decisions.html"><small>Дальше</small>Решения →</a></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html">Статус</a><a href="architecture.html">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html">Конфигурация</a><a href="infrastructure.html">Инфраструктура</a><a href="repository.html">Карта репозитория</a><a href="concepts.html" aria-current="page">Ключевые концепции</a><a href="decisions.html">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

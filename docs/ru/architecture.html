@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Архитектура</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>Архитектура</span><a class="lang" href="../architecture.html" hreflang="en">English</a></div><section id="architecture" aria-labelledby="arch-h">
+      <h2 id="arch-h">Архитектура</h2>
+      <h3>Цикл опроса (как реализовано)</h3>
+      <p class="sub">Один poller на источник. Запуск выполняется один раз, затем цикл повторяется каждые <code>polling.interval_seconds</code>.</p>
+      <div class="lane" role="list" aria-label="Запуск">
+        <div class="node" role="listitem"><b>Спецификация</b><span>sources/*.yaml</span></div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div class="node" role="listitem"><b>Валидация</b><span>модель Pydantic и политики</span></div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div class="node core" role="listitem"><b>Poller</b><span>клиент, хранилище и часы передаются снаружи</span></div>
+      </div>
+      <div class="loop">
+        <span class="loop-label">Цикл до SIGTERM</span>
+        <div class="lane">
+          <div class="node core"><b>Загрузка фида</b><span>повтор при 429, 5xx, сетевых ошибках</span></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node core"><b>Ключ</b><span>SHA-256 содержимого</span></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node core"><b>Ключ уже есть?</b><span>store.exists(key)</span></div>
+        </div>
+        <div class="branch">
+          <div class="node store"><b>Да: пропуск</b><span>дубль, ничего не пишем</span></div>
+          <div class="node store"><b>Нет: атомарная запись</b><span>временный файл, затем переименование</span></div>
+          <div class="node"><b>Сбой загрузки</b><span>в лог; poller продолжает работу</span></div>
+        </div>
+        <div class="lane">
+          <div class="node"><b>JSON-лог</b><span>snapshot_stored, snapshot_duplicate, fetch_failed</span></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="node"><b>Ожидание</b><span>остаток интервала; SIGTERM будит сразу</span></div>
+          <span class="arrow" aria-hidden="true">↻</span>
+        </div>
+      </div>
+      <p class="sub">Ключ хранения сырых данных. Партиции в стиле Hive (<code>dt=</code>) позволяют Spark, BigQuery и Athena читать только нужные дни.</p>
+      <div class="keyline">raw/&lt;source_name&gt;/dt=&lt;YYYY-MM-DD&gt;/&lt;sha256&gt;.&lt;json|pb|parquet&gt;</div>
+
+      <h3>Устройство кода: порты и адаптеры</h3>
+      <p class="sub">Ядро зависит от интерфейса <code>SnapshotStore</code>, а не от облачного SDK. Новое хранилище — это один новый класс: poller не меняется, а тесты идут без сети.</p>
+      <div class="lane"><div class="node"><b>cli.py</b><span>сигналы, переменные окружения, коды выхода</span></div></div>
+      <div class="hex">
+        <span class="loop-label">Ядро платформы · src/city_pulse/platform</span>
+        <div class="lane">
+          <div class="node"><b>sources</b><span>SourceSpec, load_spec</span></div>
+          <div class="node"><b>ingestion</b><span>Poller, fetch, порт SnapshotStore</span></div>
+          <div class="node"><b>observability</b><span>JSON-логи; позже метрики</span></div>
+        </div>
+      </div>
+      <div class="adapters" aria-label="Адаптеры хранилища">
+        <div class="node store"><b>LocalFileStore</b><span><span class="pill done">Готово</span> локально и в контейнерах</span></div>
+        <div class="node store"><b>S3Store</b><span><span class="pill plan">В планах</span> архив в AWS</span></div>
+        <div class="node store"><b>GCSStore</b><span><span class="pill plan">В планах</span> Google Cloud</span></div>
+        <div class="node store"><b>MemoryStore</b><span>подделка для юнит-тестов</span></div>
+      </div>
+
+      <h3>Целевая платформа</h3>
+      <div class="lane">
+        <div class="node"><b>Pollers</b><span>фиды реального времени</span></div><span class="arrow" aria-hidden="true">→</span>
+        <div class="node"><b>Слой raw</b><span>файлы, S3, GCS</span></div><span class="arrow" aria-hidden="true">→</span>
+        <div class="node"><b>Beam / Spark</b><span>стриминг и батч</span></div><span class="arrow" aria-hidden="true">→</span>
+        <div class="node"><b>Слои BigQuery</b><span>staging, curated, marts</span></div><span class="arrow" aria-hidden="true">→</span>
+        <div class="node"><b>Витрины dbt</b><span>дашборды, AI-агент</span></div>
+      </div>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="status.html"><small>Назад</small>← Статус</a><a class="home" href="index.html">Содержание</a><a class="next" href="evolution.html"><small>Дальше</small>Архитектура во времени →</a></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html">Статус</a><a href="architecture.html" aria-current="page">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html">Конфигурация</a><a href="infrastructure.html">Инфраструктура</a><a href="repository.html">Карта репозитория</a><a href="concepts.html">Ключевые концепции</a><a href="decisions.html">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

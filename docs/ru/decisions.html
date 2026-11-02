@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Решения</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>Решения</span><a class="lang" href="../decisions.html" hreflang="en">English</a></div><section id="decisions" aria-labelledby="dec-h">
+      <h2 id="dec-h">Решения</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ADR</th><th>Решение</th><th>Состояние</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://github.com/atmades/city-pulse/blob/main/docs/adr/001-poller-plus-pubsub-ingestion.md">001</a></td><td>Отдельный poller и Pub/Sub, а не опрос изнутри Beam</td><td><span class="pill done">Принято</span></td></tr>
+            <tr><td><a href="https://github.com/atmades/city-pulse/blob/main/docs/adr/007-cost-zero-strategy.md">007</a></td><td>Нулевая стоимость: локальные движки, облако только в бесплатных лимитах</td><td><span class="pill done">Принято</span></td></tr>
+            <tr><td><a href="https://github.com/atmades/city-pulse/blob/main/docs/adr/008-platform-approach.md">008</a></td><td>Платформенные механизмы; источники подключаются конфигурацией</td><td><span class="pill done">Принято</span></td></tr>
+            <tr><td>009</td><td>Amazon S3 как второе хранилище сырых данных</td><td><span class="pill plan">В планах</span></td></tr>
+            <tr><td>010</td><td>Контейнеры в Kubernetes, kind в CI вместо платного кластера</td><td><span class="pill plan">В планах</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="concepts.html"><small>Назад</small>← Ключевые концепции</a><a class="home" href="index.html">Содержание</a><a class="next" href="practices.html"><small>Дальше</small>Инженерные практики →</a></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html">Статус</a><a href="architecture.html">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html">Конфигурация</a><a href="infrastructure.html">Инфраструктура</a><a href="repository.html">Карта репозитория</a><a href="concepts.html">Ключевые концепции</a><a href="decisions.html" aria-current="page">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>
