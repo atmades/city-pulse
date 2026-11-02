@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Инфраструктура</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>Инфраструктура</span><a class="lang" href="../infrastructure.html" hreflang="en">English</a></div><section id="infrastructure" aria-labelledby="inf-h">
+      <h2 id="inf-h">Инфраструктура</h2>
+      <p class="sub">Dev-окружение Google Cloud в <a href="https://github.com/atmades/city-pulse/tree/main/infra/terraform">Terraform</a>, в пределах бесплатных лимитов: BigQuery sandbox без биллинга, регион <code>us-east1</code>. State пока хранится локально (ADR-007).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Датасет</th><th>Что хранит</th><th>ingestion</th><th>pipelines</th><th>transform</th><th>agent</th></tr></thead>
+          <tbody>
+            <tr><td><code>dev_raw</code></td><td>неизменённые снимки</td><td>запись</td><td>чтение</td><td>–</td><td>–</td></tr>
+            <tr><td><code>dev_staging</code></td><td>разобранные, проверенные записи</td><td>–</td><td>запись</td><td>–</td><td>–</td></tr>
+            <tr><td><code>dev_curated</code></td><td>очищенные сущности без дублей</td><td>–</td><td>запись</td><td>чтение</td><td>–</td></tr>
+            <tr><td><code>dev_marts</code></td><td>витрины данных</td><td>–</td><td>–</td><td>запись</td><td>чтение</td></tr>
+            <tr><td><code>dev_ops</code></td><td>результаты проверок качества, свежесть, логи</td><td>–</td><td>запись</td><td>запись</td><td>чтение</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sub">Каждый столбец — service account <code>cp-dev-&lt;имя&gt;</code>. Права выдаются на датасет, а не на весь проект, поэтому компонент работает только со своими слоями. У всех четырёх есть ещё <code>bigquery.jobUser</code>: эта роль позволяет запускать запросы, но сама по себе не даёт доступа к данным.</p>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="configuration.html"><small>Назад</small>← Конфигурация</a><a class="home" href="index.html">Содержание</a><a class="next" href="repository.html"><small>Дальше</small>Карта репозитория →</a></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html">Статус</a><a href="architecture.html">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html">Конфигурация</a><a href="infrastructure.html" aria-current="page">Инфраструктура</a><a href="repository.html">Карта репозитория</a><a href="concepts.html">Ключевые концепции</a><a href="decisions.html">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

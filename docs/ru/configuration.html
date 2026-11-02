@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Конфигурация</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>Конфигурация</span><a class="lang" href="../configuration.html" hreflang="en">English</a></div><section id="sources" aria-labelledby="src-h">
+      <h2 id="src-h">Конфигурация источников</h2>
+      <p class="sub">Источник — это один YAML-файл в <code>sources/</code>, который проверяется моделью <a href="https://github.com/atmades/city-pulse/blob/main/src/city_pulse/platform/sources/spec.py"><code>SourceSpec</code></a>. Неизвестные поля считаются ошибкой, поэтому опечатка роняет CI, а не проходит незамеченной.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Поле</th><th>Правило</th><th>Зачем</th></tr></thead>
+          <tbody>
+            <tr><td><code>name</code></td><td>snake_case, 3–63 символа, уникальное</td><td>Входит в пути хранилища и имена таблиц</td></tr>
+            <tr><td><code>kind</code></td><td><code>realtime_feed</code> или <code>batch_file</code></td><td>Определяет, нужна ли политика опроса</td></tr>
+            <tr><td><code>format</code></td><td><code>gtfs_rt</code>, <code>json</code>, <code>parquet</code></td><td>Задаёт расширение файла, позже и парсер</td></tr>
+            <tr><td><code>endpoint</code></td><td>корректный http(s) URL</td><td>Откуда poller забирает данные</td></tr>
+            <tr><td><code>license.reviewed_on</code></td><td>дата; обязательна при <code>enabled: true</code></td><td>Источник не запускается, пока условия не прочитаны</td></tr>
+            <tr><td><code>license.redistribution_allowed</code></td><td>да или нет</td><td><code>false</code> — публиковать можно только агрегаты</td></tr>
+            <tr><td><code>polling.interval_seconds</code></td><td>15–3600</td><td>Не опрашивать чаще, чем обновляется источник</td></tr>
+            <tr><td><code>polling.timeout_seconds</code></td><td>меньше интервала</td><td>Запросы не должны накладываться</td></tr>
+            <tr><td><code>polling.max_retries</code></td><td>0–10</td><td>Ограниченное число повторов за один опрос</td></tr>
+            <tr><td><code>contract</code></td><td>путь в <code>contracts/</code></td><td>Схема, которой должны соответствовать данные (контракты — следующий шаг)</td></tr>
+            <tr><td><code>enabled</code></td><td>по умолчанию <code>false</code></td><td>Новый источник стартует выключенным</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Источник</th><th>Фид</th><th>Интервал</th><th>Состояние</th></tr></thead>
+          <tbody>
+            <tr><td><code>citibike_station_status</code></td><td>Статус станций Citi Bike, GBFS (JSON)</td><td class="mono">60 с</td><td><span class="pill done">Включён</span> условия проверены 2026-10-25</td></tr>
+            <tr><td><code>mta_subway_ace</code></td><td>MTA GTFS-realtime, линии A/C/E (protobuf)</td><td class="mono">30 с</td><td><span class="pill plan">В планах</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section><section id="runtime" aria-labelledby="rt-h">
+      <h2 id="rt-h">Настройки запуска</h2>
+      <p class="sub">Одна сборка работает везде, меняются только переменные окружения: ноутбук, CI или кластер. Личные значения лежат в <code>.env</code>, который git игнорирует; <a href="https://github.com/atmades/city-pulse/blob/main/.envrc"><code>.envrc</code></a> загружает их через direnv и стирает учётные данные, унаследованные от других проектов.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Переменная</th><th>Кто использует</th><th>По умолчанию / пример</th></tr></thead>
+          <tbody>
+            <tr><td><code>CITY_PULSE_DATA_DIR</code></td><td>poller</td><td><code>data</code> локально, <code>/data</code> в контейнере</td></tr>
+            <tr><td><code>CITY_PULSE_LOG_LEVEL</code></td><td>poller</td><td><code>INFO</code></td></tr>
+            <tr><td><code>CITY_PULSE_USER_AGENT</code></td><td>poller</td><td>представляет проект владельцам источников</td></tr>
+            <tr><td><code>GCP_PROJECT_ID</code></td><td>direnv → gcloud, Terraform</td><td><code>city-pulse-dev-…</code></td></tr>
+            <tr><td><code>TF_VAR_project_id</code></td><td>Terraform</td><td>берётся из <code>GCP_PROJECT_ID</code></td></tr>
+            <tr><td><code>GOOGLE_APPLICATION_CREDENTIALS</code></td><td>никто</td><td>намеренно сброшена; локально используется ADC</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Команда</th><th>Коды выхода</th></tr></thead>
+          <tbody>
+            <tr><td><code>city-pulse validate sources/*.yaml</code></td><td>0 все корректны · 1 хотя бы одна с ошибкой</td></tr>
+            <tr><td><code>city-pulse poll &lt;spec&gt; --once</code></td><td>0 опрошено · 1 источник недоступен · 2 спецификация некорректна или выключена</td></tr>
+            <tr><td><code>city-pulse poll &lt;spec&gt;</code></td><td>работает до SIGTERM или Ctrl+C, затем выходит с 0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="evolution.html"><small>Назад</small>← Архитектура во времени</a><a class="home" href="index.html">Содержание</a><a class="next" href="infrastructure.html"><small>Дальше</small>Инфраструктура →</a></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html">Статус</a><a href="architecture.html">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html" aria-current="page">Конфигурация</a><a href="infrastructure.html">Инфраструктура</a><a href="repository.html">Карта репозитория</a><a href="concepts.html">Ключевые концепции</a><a href="decisions.html">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

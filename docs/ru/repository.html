@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Карта репозитория</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>Карта репозитория</span><a class="lang" href="../repository.html" hreflang="en">English</a></div><section id="repository" aria-labelledby="repo-h">
+      <h2 id="repo-h">Карта репозитория</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Путь</th><th>Что там</th><th>Состояние</th></tr></thead>
+          <tbody>
+            <tr><td><code>src/city_pulse/platform</code></td><td>ядро платформы: sources, ingestion, observability</td><td><span class="pill done">Работает</span></td></tr>
+            <tr><td><code>src/city_pulse/cli.py</code></td><td>команда <code>city-pulse</code></td><td><span class="pill done">Работает</span></td></tr>
+            <tr><td><code>sources/</code></td><td>по одному YAML-файлу на подключённый источник</td><td><span class="pill done">Работает</span></td></tr>
+            <tr><td><code>tests/unit</code></td><td>48 тестов; тестовые данные синтетические</td><td><span class="pill done">Работает</span></td></tr>
+            <tr><td><code>infra/terraform</code></td><td>модули и dev-окружение GCP</td><td><span class="pill done">Работает</span></td></tr>
+            <tr><td><code>docs/</code></td><td>этот справочник, ADR, архитектурные схемы, roadmap</td><td><span class="pill done">Работает</span></td></tr>
+            <tr><td><code>contracts/</code></td><td>контракты данных</td><td><span class="pill next">Следующее</span></td></tr>
+            <tr><td><code>pipelines/</code>, <code>orchestration/</code>, <code>sql/marts</code>, <code>agent/</code></td><td>задачи Beam и Spark, Airflow, dbt, AI-агент</td><td><span class="pill plan">В планах</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="infrastructure.html"><small>Назад</small>← Инфраструктура</a><a class="home" href="index.html">Содержание</a><a class="next" href="concepts.html"><small>Дальше</small>Ключевые концепции →</a></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html">Статус</a><a href="architecture.html">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html">Конфигурация</a><a href="infrastructure.html">Инфраструктура</a><a href="repository.html" aria-current="page">Карта репозитория</a><a href="concepts.html">Ключевые концепции</a><a href="decisions.html">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2026-09-30 · CI и защита ветки</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap"><main><div class="crumb"><a href="index.html">Справочник City Pulse</a><span>/</span><span>2026-09-30 · CI и защита ветки</span><a class="lang" href="../journal-03.html" hreflang="en">English</a></div><section><article class="entry"><header><span class="jd">2026-09-30</span><h3>CI и защита ветки</h3><span class="refs">PR #1</span></header><div class="block"><h4>Что сделано</h4><ul><li>GitHub Actions: джобы python (линтер, тесты) и secrets (gitleaks по всей истории).</li><li>Первое изменение прошло путь: ветка, pull request, зелёные проверки, squash merge.</li><li>main защищена ruleset, созданным через API: обязателен pull request, обязательны проверки, запрещён force push.</li></ul></div><div class="block"><h4>Проблемы и решения</h4><ul><li class="incident"><b>Защита молча не работала.</b> Тестовый push в main прошёл: ruleset не был активен. Убрали тестовый коммит через --force-with-lease, пересоздали ruleset как код через API и проверили, что push теперь отклоняется.</li></ul></div><div class="block"><h4>Выводы</h4><ul><li>Проверяйте защиту попыткой её обойти, а не доверием к странице настроек.</li></ul></div></article></section><nav class="pager" aria-label="Pages"><div class="pager-main"><a class="prev" href="journal-02.html"><small>Назад</small>← 2026-09-29 · Репозиторий и защита</a><a class="home" href="index.html">Содержание</a><a class="next" href="journal-04.html"><small>Дальше</small>2026-09-30 · Документация для людей и AI-скринеров →</a></div><div class="pager-all"><a href="index.html">Содержание</a><a href="status.html">Статус</a><a href="architecture.html">Архитектура</a><a href="evolution.html">Архитектура во времени</a><a href="configuration.html">Конфигурация</a><a href="infrastructure.html">Инфраструктура</a><a href="repository.html">Карта репозитория</a><a href="concepts.html">Ключевые концепции</a><a href="decisions.html">Решения</a><a href="practices.html">Инженерные практики</a><a href="journal.html" aria-current="page">Журнал разработки</a></div></nav><footer>Некоммерческий учебный проект, не связан с MTA, Lyft / Citi Bike и городом Нью-Йорк. Условия использования данных: <a href="https://github.com/atmades/city-pulse/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>.</footer></main></div>
+</body>
+</html>
